@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './UploadPicture.module.css';
 import placeholder from '../../assets/images/placeholder.png';
 import supabase from '../../../supabaseConfig';
@@ -13,7 +13,29 @@ const UploadPicture = ({ isSubmitSuccessful }: UploadPictureProps) => {
 	const [previewUrl, setPreviewUrl] = useState<string>(placeholder);
 	const [error, setError] = useState<string>('');
 
-	const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const uploadFile = async (file: File) => {
+		const fileName = `${Date.now()}-${file.name}`;
+		const { data, error } = await supabase.storage
+			.from('profilePicture')
+			.upload(`profilePictures/${fileName}`, file);
+		if (error) {
+			let errorMsg = 'Upload failed: ';
+			if (error.message.includes('File size exceeds')) {
+				errorMsg += 'File too large. Please upload a smaller image.';
+			} else if (error.message.includes('quota')) {
+				errorMsg += 'Storage quota exceeded. Please contact support.';
+			} else if (error.message.includes('Invalid file format')) {
+				errorMsg += 'Invalid file format. Please upload a JPG, JPEG, PNG, or WEBP image.';
+			} else {
+				errorMsg += error.message;
+			}
+			throw new Error(errorMsg);
+		} else {
+			console.log(data);
+		}
+	};
+
+	const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
 		const file = e.target.files;
 
@@ -29,21 +51,8 @@ const UploadPicture = ({ isSubmitSuccessful }: UploadPictureProps) => {
 		const localUrl = URL.createObjectURL(file[0]);
 		setPreviewUrl(localUrl);
 
-		// Upload file using standard upload
-		const uploadFile = async (file: File) => {
-			const fileName = `${Date.now()}-${file.name}`;
-			const { data, error } = await supabase.storage
-				.from('profilePicture')
-				.upload(`profilePictures/${fileName}`, file);
-			if (error) {
-				throw new Error(`Upload failed: ${error.message}`);
-			} else {
-				console.log(data);
-			}
-		};
-
 		try {
-			uploadFile(file[0]);
+			await uploadFile(file[0]);
 		} catch (error: any) {
 			setError(`Upload failed: ${error.message}`);
 		}

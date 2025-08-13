@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import styles from './SignUp.module.css';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import { ErrorMessage } from '@hookform/error-message';
@@ -52,6 +52,7 @@ type DataValues = z.infer<typeof formSchema>;
 
 const SignUp = () => {
 	const [disabled, setDisabled] = useState<boolean>(false);
+	const [error, setError] = useState<string>('');
 
 	const navigate = useNavigate();
 
@@ -72,7 +73,6 @@ const SignUp = () => {
 			return;
 		}
 		reset();
-		navigate('/verify-email');
 	}, [isSubmitSuccessful, reset]);
 
 	useEffect(() => {
@@ -80,12 +80,12 @@ const SignUp = () => {
 	}, [isSubmitting]);
 
 	const onSubmit = async (data: DataValues) => {
-		// Upload file using standard upload
+		// Handles user sign-up with email and password
 		const signUpUserWithEmail = async (data: DataValues) => {
 			try {
 				const response = await supabase.auth.signUp({
 					email: data.email,
-					password: data.email,
+					password: data.password,
 					options: {
 						data: {
 							first_name: data.firstName,
@@ -96,9 +96,21 @@ const SignUp = () => {
 					},
 				});
 
-				console.log(response);
-			} catch (error) {
-				console.log(error);
+				if (response.data.user) {
+					console.log('User signed up successfully');
+					navigate('/verify-email');
+				}
+			} catch (error: any) {
+				console.error('Error signing up user:', error);
+				if (error?.message) {
+					setError(error.message);
+				} else if (error?.error_description) {
+					setError(error.error_description);
+				} else if (error?.status === 400 && error?.data?.msg) {
+					setError(error.data.msg);
+				} else {
+					setError('Error signing up user');
+				}
 			}
 		};
 
@@ -260,6 +272,7 @@ const SignUp = () => {
 					{isSubmitting ? 'Signing up...' : 'Sign up!'}
 				</Button>
 			</form>
+			{error && <div className={styles.errorMessage}>{error}</div>}
 			{isSubmitSuccessful && <div className={styles.successMessage}>Sign up successful!</div>}
 		</div>
 	);
