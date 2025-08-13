@@ -2,17 +2,15 @@ import { useForm } from 'react-hook-form';
 import styles from './SignUp.module.css';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { use, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
+import { ErrorMessage } from '@hookform/error-message';
+import UploadPicture from '../../components/UploadPicture/UploadPicture';
+import supabase from '../../../supabaseConfig';
 
 const formSchema = z
 	.object({
-		profilePicture: z
-			.any()
-			.transform((val) => (val instanceof FileList ? val[0] : val))
-			.superRefine((file) => {
-				console.log(file);
-			}),
 		firstName: z
 			.string()
 			.trim()
@@ -53,15 +51,20 @@ const formSchema = z
 type DataValues = z.infer<typeof formSchema>;
 
 const SignUp = () => {
+	const [disabled, setDisabled] = useState<boolean>(false);
+
+	const navigate = useNavigate();
+
 	const {
 		register,
 		handleSubmit,
 		reset,
-		formState: { errors, isSubmitSuccessful },
+		formState: { errors, isSubmitSuccessful, isSubmitting },
 	} = useForm<DataValues>({
 		resolver: zodResolver(formSchema),
 		mode: 'onSubmit',
 		reValidateMode: 'onBlur',
+		disabled,
 	});
 
 	useEffect(() => {
@@ -69,78 +72,196 @@ const SignUp = () => {
 			return;
 		}
 		reset();
+		navigate('/verify-email');
 	}, [isSubmitSuccessful, reset]);
 
-	const onSubmit = (data: DataValues) => console.log(data);
+	useEffect(() => {
+		setDisabled(isSubmitting);
+	}, [isSubmitting]);
+
+	const onSubmit = async (data: DataValues) => {
+		// Upload file using standard upload
+		const signUpUserWithEmail = async (data: DataValues) => {
+			try {
+				const response = await supabase.auth.signUp({
+					email: data.email,
+					password: data.email,
+					options: {
+						data: {
+							first_name: data.firstName,
+							last_name: data.lastName,
+							phone: data.phone,
+							date_of_birth: data.dateOfBirth,
+						},
+					},
+				});
+
+				console.log(response);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		await signUpUserWithEmail(data);
+	};
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
-			<h2>Sign-up Form</h2>
-			<fieldset>
-				<legend>Personal information</legend>
-				<input
-					type="file"
-					id="profilePicture"
-					className={styles.formInput}
-					accept=".jpg, .jpeg, .png, .webp"
-					{...register('profilePicture')}
-				/>
-				<input
-					id="first-name"
-					type="text"
-					{...register('firstName')}
-					placeholder="First Name"
-				/>
-				{errors.firstName && (
-					<span className={styles.error}>{errors.firstName.message}</span>
-				)}
+		<div className={styles.formContainer}>
+			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+				<h2>Sign-up Form</h2>
+				<fieldset className={styles.fieldset}>
+					<legend className={styles.legend}>Personal information</legend>
+					<UploadPicture isSubmitSuccessful={isSubmitSuccessful} />
+					<div className={styles.inputGroup}>
+						<input
+							id="first-name"
+							type="text"
+							className={styles.formInput}
+							{...register('firstName')}
+							placeholder="First Name"
+							disabled={isSubmitting}
+						/>
 
-				<input
-					id="last-name"
-					type="text"
-					{...register('lastName')}
-					placeholder="Last Name"
-				/>
-				{errors.lastName && <span className={styles.error}>{errors.lastName.message}</span>}
+						{errors && (
+							<ErrorMessage
+								errors={errors}
+								name="firstName"
+								render={({ message }) => (
+									<span className={styles.error}>{message}</span>
+								)}
+							/>
+						)}
+					</div>
 
-				<input
-					id="dob"
-					type="date"
-					{...register('dateOfBirth')}
-					placeholder="Date of birth"
-				/>
-				{errors.dateOfBirth && (
-					<span className={styles.error}>{errors.dateOfBirth.message}</span>
-				)}
+					<div className={styles.inputGroup}>
+						<input
+							id="last-name"
+							type="text"
+							className={styles.formInput}
+							{...register('lastName')}
+							placeholder="Last Name"
+							disabled={isSubmitting}
+						/>
+						{errors && (
+							<ErrorMessage
+								errors={errors}
+								name="lastName"
+								render={({ message }) => (
+									<span className={styles.error}>{message}</span>
+								)}
+							/>
+						)}
+					</div>
 
-				<input id="phone" type="tel" {...register('phone')} placeholder="Phone" />
-				{errors.phone && <span className={styles.error}>{errors.phone.message}</span>}
-			</fieldset>
-			<fieldset>
-				<legend>Account information</legend>
-				<input id="email" type="email" {...register('email')} placeholder="Email" />
-				{errors.email && <span className={styles.error}>{errors.email.message}</span>}
+					<div className={styles.inputGroup}>
+						<input
+							id="dob"
+							type="date"
+							className={styles.formInput}
+							{...register('dateOfBirth')}
+							placeholder="Date of birth"
+							disabled={isSubmitting}
+						/>
+						{errors && (
+							<ErrorMessage
+								errors={errors}
+								name="dateOfBirth"
+								render={({ message }) => (
+									<span className={styles.error}>{message}</span>
+								)}
+							/>
+						)}
+					</div>
 
-				<input
-					id="password"
-					type="password"
-					{...register('password')}
-					placeholder="Password"
-				/>
-				{errors.password && <span className={styles.error}>{errors.password.message}</span>}
+					<div className={styles.inputGroup}>
+						<input
+							id="phone"
+							type="tel"
+							className={styles.formInput}
+							{...register('phone')}
+							placeholder="Phone"
+							disabled={isSubmitting}
+						/>
+						{errors && (
+							<ErrorMessage
+								errors={errors}
+								name="phone"
+								render={({ message }) => (
+									<span className={styles.error}>{message}</span>
+								)}
+							/>
+						)}
+					</div>
+				</fieldset>
 
-				<input
-					id="confirm-password"
-					type="password"
-					{...register('confirmPassword')}
-					placeholder="Confirm Password"
-				/>
-				{errors.confirmPassword && (
-					<span className={styles.error}>{errors.confirmPassword.message}</span>
-				)}
-			</fieldset>
-			<Button> Sign up!</Button>
-		</form>
+				<fieldset className={styles.fieldset}>
+					<legend className={styles.legend}>Account information</legend>
+					<div className={styles.inputGroup}>
+						<input
+							id="email"
+							type="email"
+							className={styles.formInput}
+							{...register('email')}
+							placeholder="Email"
+							disabled={isSubmitting}
+						/>
+						{errors && (
+							<ErrorMessage
+								errors={errors}
+								name="email"
+								render={({ message }) => (
+									<span className={styles.error}>{message}</span>
+								)}
+							/>
+						)}
+					</div>
+
+					<div className={styles.inputGroup}>
+						<input
+							id="password"
+							type="password"
+							className={styles.formInput}
+							{...register('password')}
+							placeholder="Password"
+							disabled={isSubmitting}
+						/>
+						{errors && (
+							<ErrorMessage
+								errors={errors}
+								name="password"
+								render={({ message }) => (
+									<span className={styles.error}>{message}</span>
+								)}
+							/>
+						)}
+					</div>
+
+					<div className={styles.inputGroup}>
+						<input
+							id="confirm-password"
+							type="password"
+							className={styles.formInput}
+							{...register('confirmPassword')}
+							placeholder="Confirm Password"
+							disabled={isSubmitting}
+						/>
+						{errors && (
+							<ErrorMessage
+								errors={errors}
+								name="confirmPassword"
+								render={({ message }) => (
+									<span className={styles.error}>{message}</span>
+								)}
+							/>
+						)}
+					</div>
+				</fieldset>
+				<Button className="submitButton">
+					{isSubmitting ? 'Signing up...' : 'Sign up!'}
+				</Button>
+			</form>
+			{isSubmitSuccessful && <div className={styles.successMessage}>Sign up successful!</div>}
+		</div>
 	);
 };
 

@@ -19,7 +19,7 @@ const Button = ({
 }: ButtonProps) => {
 	return (
 		<button
-			className={`${styles.button} ${className}`}
+			className={`${styles.button}${className && styles[className] ? ' ' + styles[className] : ''}`}
 			disabled={disabled}
 			onClick={onClick}
 			aria-label={ariaLabel}
