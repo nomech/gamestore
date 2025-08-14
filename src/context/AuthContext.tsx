@@ -1,10 +1,8 @@
-import { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect, useContext, createContext, type PropsWithChildren } from 'react';
 import supabase from '../../supabaseConfig';
 import type { User, Session } from '@supabase/supabase-js';
 
-interface AuthProps {
-	children: React.ReactNode;
-}
+type AuthProps = PropsWithChildren;
 
 interface AuthContextType {
 	session: Session | null;
@@ -13,7 +11,7 @@ interface AuthContextType {
 	error: string;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: AuthProps) => {
 	const [user, setUser] = useState<User | null>(null);

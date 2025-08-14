@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromElements, Navigate, Route } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import App from '../App';
 import Home from '../pages/Home/Home';
 import GamesList from '../pages/GamesList/GamesList';
@@ -11,27 +11,7 @@ import GameDetails from '../pages/GameDetails/GameDetails';
 import NotFound from '../pages/NotFound/NotFound';
 import Checkout from '../pages/Checkout/Checkout';
 import SignIn from '../pages/SignIn/SignIn';
-import { useAuth } from '../context/AuthContext';
-
-
-interface RouteGuardProps {
-	children: React.ReactNode;
-}
-
-const RouteGuard = ({ children }: RouteGuardProps) => {
-	const { user, isLoading } = useAuth();
-
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
-
-	if (!isLoading && !user) {
-		return <Navigate to="/sign-in" />;
-	}
-
-	return children;
-
-};
+import RouteGuard from '../components/RouteGuard/RouteGuard';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
