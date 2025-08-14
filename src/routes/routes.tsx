@@ -10,6 +10,7 @@ import VerifyEmail from '../pages/VerifyEmail/VerifyEmail';
 import GameDetails from '../pages/GameDetails/GameDetails';
 import NotFound from '../pages/NotFound/NotFound';
 import Checkout from '../pages/Checkout/Checkout';
+import SignIn from '../pages/SignIn/SignIn';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -21,6 +22,7 @@ export const router = createBrowserRouter(
 			<Route path="checkout" element={<Checkout />} />
 			<Route path="cart" element={<Cart />} />
 			<Route path="sign-up" element={<SignUp />} />
+			<Route path="sign-in" element={<SignIn />} />
 			<Route path="profile" element={<Profile />} />
 			<Route path="contact" element={<Contact />} />
 			<Route path="verify-email" element={<VerifyEmail />} />
