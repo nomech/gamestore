@@ -7,18 +7,18 @@ interface AuthProps {
 }
 
 interface AuthContextType {
-	session: Session;
-	user: User;
+	session: Session | null;
+	user: User | null;
 	isLoading: boolean;
 	error: string;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProps) => {
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState<User | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-	const [session, setSession] = useState<string>('');
+	const [session, setSession] = useState<Session | null>(null);
 	const [error, setError] = useState<string>('');
 
 	useEffect(() => {
@@ -30,11 +30,11 @@ export const AuthProvider = ({ children }: AuthProps) => {
 				} = response;
 
 				setSession(session);
-				setUser(session?.user);
+				setUser(session?.user ?? null);
 				setIsLoading(false);
 			} catch (error) {
 				console.error('Error fetching session:', error);
-				setError(error);
+				setError(error.message);
 			}
 		};
 
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((_event, session) => {
 			setSession(session);
-			setUser(session?.user);
+			setUser(session?.user ?? null);
 			setIsLoading(false);
 		});
 

@@ -98,7 +98,7 @@ const SignUp = () => {
 
 				if (response.data.user) {
 					console.log('User signed up successfully');
-					navigate('/verify-email');
+					navigate('/verify-email', {state: {email: data.email}});
 				}
 			} catch (error: any) {
 				console.error('Error signing up user:', error);

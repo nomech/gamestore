@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Navigate, Route } from 'react-router-dom';
 import App from '../App';
 import Home from '../pages/Home/Home';
 import GamesList from '../pages/GamesList/GamesList';
@@ -13,21 +13,93 @@ import Checkout from '../pages/Checkout/Checkout';
 import SignIn from '../pages/SignIn/SignIn';
 import { useAuth } from '../context/AuthContext';
 
+
+interface RouteGuardProps {
+	children: React.ReactNode;
+}
+
+const RouteGuard = ({ children }: RouteGuardProps) => {
+	const { user, isLoading } = useAuth();
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (!isLoading && !user) {
+		return <Navigate to="/sign-in" />;
+	}
+
+	return children;
+
+};
+
 export const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/" element={<App />}>
-			<Route index element={<Home />} />
-			<Route path="games" element={<GamesList />} />
-			<Route path="games/:id" element={<GamesList />} />
-			<Route path="game-details" element={<GameDetails />} />
-			<Route path="checkout" element={<Checkout />} />
-			<Route path="cart" element={<Cart />} />
+			{/* // Public routes */}
 			<Route path="sign-up" element={<SignUp />} />
 			<Route path="sign-in" element={<SignIn />} />
-			<Route path="profile" element={<Profile />} />
 			<Route path="contact" element={<Contact />} />
 			<Route path="verify-email" element={<VerifyEmail />} />
 			<Route path="*" element={<NotFound />} />
+
+			{/* // Protected routes */}
+			<Route
+				index
+				element={
+					<RouteGuard>
+						<Home />
+					</RouteGuard>
+				}
+			/>
+			<Route
+				path="games"
+				element={
+					<RouteGuard>
+						<GamesList />
+					</RouteGuard>
+				}
+			/>
+			<Route
+				path="games/:id"
+				element={
+					<RouteGuard>
+						<GamesList />
+					</RouteGuard>
+				}
+			/>
+			<Route
+				path="game-details"
+				element={
+					<RouteGuard>
+						<GameDetails />
+					</RouteGuard>
+				}
+			/>
+			<Route
+				path="checkout"
+				element={
+					<RouteGuard>
+						<Checkout />
+					</RouteGuard>
+				}
+			/>
+			<Route
+				path="cart"
+				element={
+					<RouteGuard>
+						<Cart />
+					</RouteGuard>
+				}
+			/>
+			<Route
+				path="profile"
+				element={
+					<RouteGuard>
+						<Profile />
+					</RouteGuard>
+				}
+			/>
 		</Route>
 	)
 );
