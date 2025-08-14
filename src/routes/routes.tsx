@@ -11,6 +11,7 @@ import GameDetails from '../pages/GameDetails/GameDetails';
 import NotFound from '../pages/NotFound/NotFound';
 import Checkout from '../pages/Checkout/Checkout';
 import SignIn from '../pages/SignIn/SignIn';
+import { useAuth } from '../context/AuthContext';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
