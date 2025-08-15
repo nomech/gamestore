@@ -17,26 +17,26 @@
 	width: 100%;
 }
 
-a {
-	font-weight: 500;
-	color: #646cff;
-	text-decoration: inherit;
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	scroll-behavior: smooth;
 }
-a:hover {
-	color: #535bf2;
+
+#root {
+	width: 100%;
+}
+
+html {
+	margin: 0;
 }
 
 body {
 	margin: 0;
 	display: flex;
-	place-items: center;
-	min-width: 320px;
 	min-height: 100vh;
-}
-
-h1 {
-	font-size: 3.2em;
-	line-height: 1.1;
+	width: 100%;
 }
 
 @media (prefers-color-scheme: light) {

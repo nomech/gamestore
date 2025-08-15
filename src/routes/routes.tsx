@@ -20,6 +20,7 @@ export const router = createBrowserRouter(
 			<Route index element={<Home />} />
 			<Route path="sign-up" element={<SignUp />} />
 			<Route path="sign-in" element={<SignIn />} />
+			<Route path="cart" element={<Cart />} />
 			<Route path="contact" element={<Contact />} />
 			<Route path="verify-email" element={<VerifyEmail />} />
 			<Route path="*" element={<NotFound />} />
@@ -31,7 +32,6 @@ export const router = createBrowserRouter(
 				<Route path="games/:id" element={<GameDetails />} />
 				<Route path="game-details" element={<GameDetails />} />
 				<Route path="checkout" element={<Checkout />} />
-				<Route path="cart" element={<Cart />} />
 			</Route>
 		</Route>
 	)

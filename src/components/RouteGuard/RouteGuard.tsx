@@ -4,9 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const RouteGuard: React.FC = () => {
 	const navigate = useNavigate();
-	const auth = useAuth();
-	const user = auth?.user;
-	const isLoading = auth?.isLoading;
+	const { user, isLoading } = useAuth();
 
 	useEffect(() => {
 		if (isLoading) {

@@ -9,6 +9,7 @@ interface AuthContextType {
 	user: User | null;
 	isLoading: boolean;
 	error: string;
+	signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -18,6 +19,16 @@ export const AuthProvider = ({ children }: AuthProps) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [session, setSession] = useState<Session | null>(null);
 	const [error, setError] = useState<string>('');
+
+	const signOut = async () => {
+		const { error } = await supabase.auth.signOut();
+		if (error) {
+			setError(error.message);
+		} else {
+			setUser(null);
+			setSession(null);
+		}
+	};
 
 	useEffect(() => {
 		const getSession = async () => {
@@ -51,7 +62,15 @@ export const AuthProvider = ({ children }: AuthProps) => {
 		};
 	}, []);
 
-	return <AuthContext value={{ session, user, isLoading, error }}>{children}</AuthContext>;
+	return (
+		<AuthContext value={{ session, user, isLoading, error, signOut }}>{children}</AuthContext>
+	);
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+	const ctx = useContext(AuthContext);
+	if (!ctx) {
+		throw new Error('useAuth must be used within an AuthProvider');
+	}
+	return ctx;
+};
