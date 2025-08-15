@@ -17,6 +17,7 @@ export const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/" element={<App />}>
 			{/* // Public routes */}
+			<Route index element={<Home />} />
 			<Route path="sign-up" element={<SignUp />} />
 			<Route path="sign-in" element={<SignIn />} />
 			<Route path="contact" element={<Contact />} />
@@ -24,62 +25,14 @@ export const router = createBrowserRouter(
 			<Route path="*" element={<NotFound />} />
 
 			{/* // Protected routes */}
-			<Route
-				index
-				element={
-					<RouteGuard>
-						<Home />
-					</RouteGuard>
-				}
-			/>
-			<Route
-				path="games"
-				element={
-					<RouteGuard>
-						<GamesList />
-					</RouteGuard>
-				}
-			/>
-			<Route
-				path="games/:id"
-				element={
-					<RouteGuard>
-						<GamesList />
-					</RouteGuard>
-				}
-			/>
-			<Route
-				path="game-details"
-				element={
-					<RouteGuard>
-						<GameDetails />
-					</RouteGuard>
-				}
-			/>
-			<Route
-				path="checkout"
-				element={
-					<RouteGuard>
-						<Checkout />
-					</RouteGuard>
-				}
-			/>
-			<Route
-				path="cart"
-				element={
-					<RouteGuard>
-						<Cart />
-					</RouteGuard>
-				}
-			/>
-			<Route
-				path="profile"
-				element={
-					<RouteGuard>
-						<Profile />
-					</RouteGuard>
-				}
-			/>
+			<Route element={<RouteGuard />}>
+				<Route path="profile" element={<Profile />} />
+				<Route path="games" element={<GamesList />} />
+				<Route path="games/:id" element={<GameDetails />} />
+				<Route path="game-details" element={<GameDetails />} />
+				<Route path="checkout" element={<Checkout />} />
+				<Route path="cart" element={<Cart />} />
+			</Route>
 		</Route>
 	)
 );

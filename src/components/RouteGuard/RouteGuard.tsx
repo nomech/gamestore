@@ -1,26 +1,28 @@
-import React, { useEffect, type PropsWithChildren } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
-type ProtectedRouteProps = PropsWithChildren;
-
-const RouteGuard = ({ children }: ProtectedRouteProps) => {
+const RouteGuard: React.FC = () => {
 	const navigate = useNavigate();
 	const auth = useAuth();
 	const user = auth?.user;
 	const isLoading = auth?.isLoading;
 
 	useEffect(() => {
-		if (!isLoading && !user) {
+		if (isLoading) {
+			return;
+		}
+
+		if (!user) {
 			navigate('/sign-in', { replace: true });
 		}
-	}, [navigate, user, isLoading]);
+	}, [isLoading, user, navigate]);
 
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return <div>Loading…</div>;
 	}
 
-	return children;
+	return <Outlet />;
 };
 
 export default RouteGuard;
