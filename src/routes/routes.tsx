@@ -24,14 +24,14 @@ export const router = createBrowserRouter(
 			<Route path="contact" element={<Contact />} />
 			<Route path="verify-email" element={<VerifyEmail />} />
 			<Route path="*" element={<NotFound />} />
+			<Route path="games" element={<GamesList />} />
+			<Route path="games/:id" element={<GameDetails />} />
+			<Route path="game-details" element={<GameDetails />} />
+			<Route path="checkout" element={<Checkout />} />
 
 			{/* // Protected routes */}
 			<Route element={<RouteGuard />}>
 				<Route path="profile" element={<Profile />} />
-				<Route path="games" element={<GamesList />} />
-				<Route path="games/:id" element={<GameDetails />} />
-				<Route path="game-details" element={<GameDetails />} />
-				<Route path="checkout" element={<Checkout />} />
 			</Route>
 		</Route>
 	)
