@@ -2,9 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import supabase from '../../../supabaseConfig';
 import Button from '../../components/Button/Button';
 import styles from './SignIn.module.css';
-import { KeyRound, LogOut } from 'lucide-react';
+import { KeyRound } from 'lucide-react';
 import { useState } from 'react';
-import { set } from 'zod';
 
 interface Credentials {
 	email: string;
@@ -32,8 +31,8 @@ const SignIn = () => {
 			return;
 		} else {
 			setLoading(false);
-      console.log('User signed in:', data.user);
-			//navigate('/home');
+			console.log('User signed in:', data.user);
+			navigate('/home');
 		}
 	}
 
@@ -41,15 +40,6 @@ const SignIn = () => {
 		const { name, value } = e.target;
 		setCredentials((prev) => ({ ...prev, [name]: value }));
 	};
-
-	/* 	async function signOutUser() {
-		const { error } = await supabase.auth.signOut();
-		if (error) {
-			console.error('Error signing out:', error);
-		} else {
-			console.log('User signed out successfully');
-		}
-	} */
 
 	return (
 		<div className={styles.formContainer}>
@@ -90,6 +80,14 @@ const SignIn = () => {
 					</Button>
 				</fieldset>
 			</form>
+			<div className={styles.footer}>
+				<p>
+					Don't have an account? <a href="/sign-up">Sign Up</a>
+				</p>
+				<p>
+					Forgot your password? <a href="/password/forgot">Reset Password</a>
+				</p>
+			</div>
 		</div>
 	);
 };

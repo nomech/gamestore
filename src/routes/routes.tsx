@@ -12,6 +12,8 @@ import NotFound from '../pages/NotFound/NotFound';
 import Checkout from '../pages/Checkout/Checkout';
 import SignIn from '../pages/SignIn/SignIn';
 import RouteGuard from '../components/RouteGuard/RouteGuard';
+import ForgotPassword from '../pages/ForgotPassword/ForgotPassword';
+import ResetPassword from '../pages/ResetPassword/ResetPassword';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -28,6 +30,12 @@ export const router = createBrowserRouter(
 			<Route path="games/:id" element={<GameDetails />} />
 			<Route path="game-details" element={<GameDetails />} />
 			<Route path="checkout" element={<Checkout />} />
+
+			{/* // Password routes */}
+			<Route path="password">
+				<Route path="forgot" element={<ForgotPassword />} />
+				<Route path="reset" element={<ResetPassword />} />
+			</Route>
 
 			{/* // Protected routes */}
 			<Route element={<RouteGuard />}>
