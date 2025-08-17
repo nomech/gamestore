@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import supabase from '../../../supabaseConfig';
 import Button from '../../components/Button/Button';
 import { formatCurrency } from '../../utils/currency';
+import { useNavigate } from 'react-router-dom';
 
 type Games = {
 	id: number;
@@ -35,6 +36,8 @@ const GamesList = () => {
 	const [platforms, setPlatforms] = useState<Platform[]>([]);
 	const [games, setGames] = useState<Games[]>([]);
 	const [filter, setFilter] = useState<Filter>({ platform: 0, genre: 0 });
+
+	const navigate = useNavigate();
 
 	const handleOnChangeFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		const { value, name } = e.target;
@@ -76,6 +79,10 @@ const GamesList = () => {
 			return genreMatch && platformMatch;
 		});
 	}, [games, filter]);
+
+	const handleOnClickDetails = (id: string) => {
+		navigate(`/games/${id}`);
+	};
 
 	return (
 		<>
@@ -138,7 +145,12 @@ const GamesList = () => {
 							</p>
 							<div className={styles.cardFooter}>
 								<div className={styles.actionsContainer}>
-									<Button className="addButton">Add to Cart</Button>
+									<Button
+										className="detailsButton"
+										onClick={() => handleOnClickDetails(game.id)}
+									>
+										Details
+									</Button>
 								</div>
 								<div className={styles.priceContainer}>
 									<p>{game.price ? formatCurrency(game.price) : 'N/A'}</p>

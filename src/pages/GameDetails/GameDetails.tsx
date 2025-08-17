@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import supabase from '../../../supabaseConfig';
 import styles from './GameDetails.module.css';
 import { formatCurrency } from '../../utils/currency';
+import Button from '../../components/Button/Button';
+import buttonStyles from '../../components/Button/Button.module.css';
 
 const GameDetails = () => {
 	const { id } = useParams();
@@ -31,18 +33,9 @@ const GameDetails = () => {
 		<div className={styles.centerContainer}>
 			<div className={styles.gameCard}>
 				{game.image_url && (
-					<img
-						src={game.image_url}
-						alt={game.title}
-						style={{
-							width: '100%',
-							borderRadius: '16px 16px 0 0',
-							objectFit: 'cover',
-							maxHeight: '320px',
-						}}
-					/>
+					<img src={game.image_url} alt={game.title} className={styles.image} />
 				)}
-				<div style={{ padding: '2rem' }}>
+				<div className={styles.cardContent}>
 					<h2 className={styles.title}>{game.title}</h2>
 					<p>
 						<strong>Genre:</strong> {game.genre?.genre}
@@ -56,7 +49,8 @@ const GameDetails = () => {
 					<p>
 						<strong>Price:</strong> {game.price ? formatCurrency(game.price) : 'N/A'}
 					</p>
-					<p style={{ marginTop: '1rem' }}>{game.details}</p>
+					<p>{game.details}</p>
+					<Button className="detailsButton">Add to Cart</Button>
 				</div>
 			</div>
 		</div>

@@ -43,7 +43,8 @@
 	box-shadow: none;
 }
 
-.addButton {
+.addButton,
+.detailsButton {
 	background: #27ae60;
 	color: white;
 	border: none;
@@ -54,6 +55,7 @@
 	font-weight: bold;
 }
 
-.addButton:hover {
+.addButton:hover,
+.detailsButton {
 	background: #2ecc71;
 }
