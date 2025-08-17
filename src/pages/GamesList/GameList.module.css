@@ -1,0 +1,106 @@
+.filterContainer {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 1rem;
+	padding: 4rem;
+	gap: 8rem;
+}
+
+.filterWrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.filterWrapper label {
+	color: #b0b3c7;
+	font-weight: 500;
+	font-size: 0.9rem;
+}
+
+.filter {
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 12px;
+	color: #ffffff;
+	padding: 0.75rem 1rem;
+	backdrop-filter: blur(10px);
+	transition: all 0.3s ease;
+	min-width: 150px;
+}
+
+.title {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+}
+
+.gameList {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	gap: 2rem;
+}
+
+.gameCard * {
+	text-transform: capitalize;
+}
+
+.gameCard {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	max-width: 320px;
+	border: 1px solid #566675;
+	background: #24263c;
+	color: #ffffff;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.cardHeader {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	right: 10px;
+	display: flex;
+	gap: 0.5rem;
+	font-size: 10px;
+}
+
+.platform,
+.genre {
+	background-color: #000000;
+	color: #ffffff;
+	padding: 4px 12px;
+	border-radius: 4px;
+	border: 1px solid #ffffff;
+	font-weight: bold;
+}
+
+.image {
+	width: 100%;
+	object-fit: contain;
+}
+
+.cardWrapper {
+	display: flex;
+	flex-direction: column;
+	padding: 0 1rem 1rem 1rem;
+	flex-grow: 1;
+}
+
+.details {
+	font-size: 12px;
+	margin-bottom: auto;
+}
+
+.releaseDate {
+	font-size: 12px;
+	padding-top: 1rem;
+	margin-top: auto;
+}
+
+.cardFooter {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 1rem;
+}

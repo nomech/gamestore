@@ -7,9 +7,7 @@
 	align-items: center;
 
 	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #242424;
-
+	color: rgba(0, 0, 0, 0.87);
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
@@ -22,6 +20,7 @@
 	margin: 0;
 	box-sizing: border-box;
 	scroll-behavior: smooth;
+	font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 #root {
@@ -37,6 +36,23 @@ body {
 	display: flex;
 	min-height: 100vh;
 	width: 100%;
+	min-height: 100vh;
+	background: linear-gradient(135deg, #0a0e1a 0%, #1a1b3e 50%, #2d1b69 100%);
+}
+
+header {
+	width: 100%;
+	backdrop-filter: blur(20px);
+	background: rgba(10, 14, 26, 0.8);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+	position: sticky;
+	top: 0;
+	z-index: 100;
+}
+
+main {
+	padding: 0 4rem;
 }
 
 @media (prefers-color-scheme: light) {

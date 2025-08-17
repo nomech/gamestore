@@ -36,10 +36,24 @@
 	background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
 }
 
-
 .submitButton:disabled {
 	background: #9ca3af;
 	cursor: not-allowed;
 	transform: none;
 	box-shadow: none;
+}
+
+.addButton {
+	background: #27ae60;
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.addButton:hover {
+	background: #2ecc71;
 }

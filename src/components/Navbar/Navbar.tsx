@@ -68,7 +68,21 @@ const Navbar = () => {
 					>
 						Games
 					</NavLink>
+
+					{menuItems.map((item) => {
+						return (
+							<div className={styles.navLinks} key={item.id}>
+								<NavLink
+									to={item.to}
+									className={({ isActive }) => (isActive ? styles.active : '')}
+								>
+									{item.label}
+								</NavLink>
+							</div>
+						);
+					})}
 				</div>
+
 				<div className={styles.menuButton} onClick={handleOnClickMenu} aria-label="Menu">
 					<h2>Menu</h2>
 					<Menu size={38} color="#ffffff" />

@@ -1,11 +1,18 @@
+import styles from './GameList.module.css';
 import React, { useEffect, useMemo, useState } from 'react';
 import supabase from '../../../supabaseConfig';
+import Button from '../../components/Button/Button';
+import { formatCurrency } from '../../utils/currency';
 
 type Games = {
 	id: number;
 	title: string;
 	genre: Genre;
 	platform: Platform;
+	image_url: string;
+	details: string;
+	price?: number;
+	release_date: string;
 };
 
 type Genre = {
@@ -40,6 +47,8 @@ const GamesList = () => {
 				.from('games')
 				.select(`*, genre (id, genre), platform (id, platform )`);
 
+			console.log(game);
+
 			setGames(game);
 
 			let { data: genre, error: genreError } = await supabase
@@ -53,10 +62,6 @@ const GamesList = () => {
 				.select('id, platform');
 
 			setPlatforms(platform);
-
-			/* 			console.log('Games:', game);
-			console.log('Genres', genre);
-			console.log('Platform', platform); */
 		};
 		fetchData();
 	}, []);
@@ -66,7 +71,7 @@ const GamesList = () => {
 			const genreMatch =
 				!filter.genre || filter.genre === 0 || game.genre.id === filter.genre;
 			const platformMatch =
-				!filter.genre || filter.genre === 0 || game.platform.id === filter.platform;
+				!filter.platform || filter.platform === 0 || game.platform.id === filter.platform;
 
 			return genreMatch && platformMatch;
 		});
@@ -74,30 +79,75 @@ const GamesList = () => {
 
 	return (
 		<>
-			<div>
-				<select name="genre" onChange={(e) => handleOnChangeFilter(e)}>
-					<option key={0} value={0}>
-						All
-					</option>
-					{genres.map((genre) => (
-						<option key={genre.id} value={genre.id}>
-							{genre.genre}
+			<div className={styles.filterContainer}>
+				<div className={styles.filterWrapper}>
+					<label htmlFor="platform">Platform:</label>
+					<select
+						className={styles.filter}
+						name="platform"
+						id="platform"
+						onChange={(e) => handleOnChangeFilter(e)}
+					>
+						<option key={0} value={0}>
+							All
 						</option>
-					))}
-				</select>
-
-				<select name="platform" id="platform" onChange={(e) => handleOnChangeFilter(e)}>
-					<option key={0} value={0}>
-						All
-					</option>
-					{platforms.map((platform) => (
-						<option key={platform.id} value={platform.id}>
-							{platform.platform}
+						{platforms.map((platform) => (
+							<option key={platform.id} value={platform.id}>
+								{platform.platform}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className={styles.filterWrapper}>
+					<label htmlFor="genre">Genre:</label>
+					<select
+						className={styles.filter}
+						name="genre"
+						onChange={(e) => handleOnChangeFilter(e)}
+					>
+						<option key={0} value={0}>
+							All
 						</option>
-					))}
-				</select>
+						{genres.map((genre) => (
+							<option key={genre.id} value={genre.id}>
+								{genre.genre}
+							</option>
+						))}
+					</select>
+				</div>
 			</div>
-			<div>{filteredGames.map((game) => game.title)}</div>
+			<div className={styles.gameList}>
+				{filteredGames.map((game) => (
+					<div key={game.id} className={styles.gameCard}>
+						<div className={styles.cardHeader}>
+							<p className={styles.platform}>{game.platform.platform}</p>
+							<p className={styles.genre}>{game.genre.genre}</p>
+						</div>
+						<div className={styles.imageContainer}>
+							<img
+								className={styles.image}
+								src={game.image_url}
+								alt="Image of the game"
+							/>
+						</div>
+						<div className={styles.cardWrapper}>
+							<h2 className={styles.title}>{game.title}</h2>
+							<p className={styles.details}>{game.details}</p>
+							<p className={styles.releaseDate}>
+								Released: {game.release_date ? game.release_date : 'N/A'}
+							</p>
+							<div className={styles.cardFooter}>
+								<div className={styles.actionsContainer}>
+									<Button className="addButton">Add to Cart</Button>
+								</div>
+								<div className={styles.priceContainer}>
+									<p>{game.price ? formatCurrency(game.price) : 'N/A'}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
 		</>
 	);
 };
