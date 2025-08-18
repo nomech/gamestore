@@ -72,3 +72,7 @@
 .detailsButton:hover {
 	background: linear-gradient(90deg, #4f46e5 0%, #2563eb 100%);
 }
+
+.cardContent{
+	padding: 1rem;
+}

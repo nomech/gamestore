@@ -31,11 +31,51 @@ type Filter = {
 	genre: number | null;
 };
 
+const GameCardSkeleton = () => (
+	<div className={styles.gameCard}>
+		<div className={styles.cardHeader}>
+			<div className={styles.skeletonBadge}></div>
+			<div className={styles.skeletonBadge}></div>
+		</div>
+		<div className={styles.imageContainer}>
+			<div className={styles.skeletonImage}></div>
+		</div>
+		<div className={styles.cardWrapper}>
+			<div className={styles.skeletonTitle}></div>
+			<div className={styles.skeletonText}></div>
+			<div className={styles.skeletonText}></div>
+			<div className={styles.skeletonDate}></div>
+			<div className={styles.cardFooter}>
+				<div className={styles.actionsContainer}>
+					<div className={styles.skeletonButton}></div>
+				</div>
+				<div className={styles.priceContainer}>
+					<div className={styles.skeletonPrice}></div>
+				</div>
+			</div>
+		</div>
+	</div>
+);
+
+const FilterSkeleton = () => (
+	<div className={styles.filterContainer}>
+		<div className={styles.filterWrapper}>
+			<div className={styles.skeletonLabel}></div>
+			<div className={styles.skeletonSelect}></div>
+		</div>
+		<div className={styles.filterWrapper}>
+			<div className={styles.skeletonLabel}></div>
+			<div className={styles.skeletonSelect}></div>
+		</div>
+	</div>
+);
+
 const GamesList = () => {
 	const [genres, setGenres] = useState<Genre[]>([]);
 	const [platforms, setPlatforms] = useState<Platform[]>([]);
 	const [games, setGames] = useState<Games[]>([]);
 	const [filter, setFilter] = useState<Filter>({ platform: 0, genre: 0 });
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const navigate = useNavigate();
 
@@ -65,6 +105,8 @@ const GamesList = () => {
 				.select('id, platform');
 
 			setPlatforms(platform);
+
+			setIsLoading(false);
 		};
 		fetchData();
 	}, []);
@@ -83,6 +125,19 @@ const GamesList = () => {
 	const handleOnClickDetails = (id: string) => {
 		navigate(`/games/${id}`);
 	};
+
+	if (isLoading) {
+		return (
+			<>
+				<FilterSkeleton />
+				<div className={styles.gameList}>
+					{Array.from({ length: 8 }, (_, index) => (
+						<GameCardSkeleton key={index} />
+					))}
+				</div>
+			</>
+		);
+	}
 
 	return (
 		<>
