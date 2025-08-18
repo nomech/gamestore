@@ -3,9 +3,12 @@ import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/routes.tsx';
 import { AuthProvider } from './context/AuthContext.tsx';
+import { CartProvider } from './context/cartContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
 	<AuthProvider>
-		<RouterProvider router={router} />
+		<CartProvider>
+			<RouterProvider router={router} />
+		</CartProvider>
 	</AuthProvider>
 );

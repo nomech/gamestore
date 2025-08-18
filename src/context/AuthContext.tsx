@@ -60,8 +60,6 @@ export const AuthProvider = ({ children }: AuthProps) => {
 		return () => {
 			if (subscription) subscription.unsubscribe();
 		};
-
-		console.log(user);
 	}, []);
 
 	return (
