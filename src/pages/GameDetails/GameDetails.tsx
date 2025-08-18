@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import supabase from '../../../supabaseConfig';
 import styles from './GameDetails.module.css';
 import { formatCurrency } from '../../utils/currency';
 import Button from '../../components/Button/Button';
 import buttonStyles from '../../components/Button/Button.module.css';
+import { useCart } from '../../context/cartContext';
 
 const GameDetails = () => {
 	const { id } = useParams();
 	const [game, setGame] = useState<any>(null);
+
+	const { dispatch } = useCart();
 
 	useEffect(() => {
 		const fetchGameDetails = async () => {
@@ -50,7 +53,12 @@ const GameDetails = () => {
 						<strong>Price:</strong> {game.price ? formatCurrency(game.price) : 'N/A'}
 					</p>
 					<p>{game.details}</p>
-					<Button className="detailsButton">Add to Cart</Button>
+					<Button
+						className="detailsButton"
+						onClick={() => dispatch({ type: 'ADD_TO_CART', payload: game })}
+					>
+						Add to Cart
+					</Button>
 				</div>
 			</div>
 		</div>
