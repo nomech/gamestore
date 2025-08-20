@@ -1,18 +1,19 @@
-import React from 'react';
 import { useCart } from '../../context/cartContext';
 import { formatCurrency } from '../../utils/currency';
 import styles from './Cart.module.css';
 import Button from '../../components/Button/Button';
 import { X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-
 import supabase from '../../../supabaseConfig';
 import { useOrder } from '../../context/orderContext';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
 	const { cart, dispatch } = useCart();
 	const { user } = useAuth();
 	const { setOrder } = useOrder();
+
+	const navigate = useNavigate();
 
 	console.log(cart);
 
@@ -24,43 +25,44 @@ const Cart = () => {
 	};
 
 	const handleOnClickProceedToCheckout = async () => {
-		console.log('user_id:', user.id);
-		try {
-			const { data: order, error: orderError } = await supabase
-				.from('orders')
-				.insert([
-					{
-						user_id: user.id,
-						email: user.email,
-					},
-				])
-				.select()
-				.single(); // return just one object
+		const existingOrder = localStorage.getItem('order_id');
+		if (!existingOrder) {
+			try {
+				const { data: order, error: orderError } = await supabase
+					.from('orders')
+					.insert([
+						{
+							user_id: user.id,
+							email: user.email,
+						},
+					])
+					.select()
+					.single(); // return just one object
 
-			if (orderError) {
-				console.error(orderError);
-			} else {
-				console.log('New order:', order);
+				if (orderError) {
+					console.error(orderError);
+				} else {
+					console.log('New order:', order);
+				}
+
+				setOrder(order.id);
+
+				const orderLines = cart.map((item) => ({
+					order_id: order.id,
+					product_id: item.id,
+					quantity: item.quantity,
+				}));
+
+				const { error: orderItemsError } = await supabase
+					.from('order_items')
+					.insert(orderLines);
+
+				navigate('/checkout');
+			} catch (err) {
+				console.log(err);
 			}
-
-			console.log(cart);
-			console.log(order);
-			setOrder(order.id);
-
-			const orderLines = cart.map((item) => ({
-				order_id: order.id,
-				product_id: item.id,
-				quantity: item.quantity,
-			}));
-
-			const { error: orderItemsErrro } = await supabase
-				.from('order_items')
-				.insert(orderLines)
-				.throwOnError();
-
-			console.log(orderItemsErrro);
-		} catch (err) {
-			console.log(err);
+		} else {
+			navigate('/checkout');
 		}
 	};
 

@@ -7,16 +7,25 @@ type OrderContextType = {
 
 const orderContext = createContext<OrderContextType | null>(null);
 
+const getLocalOrder = () => {
+	const order = localStorage.getItem('order_id');
+	return order ? JSON.parse(order) : null;
+};
+
 export const OrderProvider = ({ children }: PropsWithChildren) => {
 	const [order, setOrder] = useState<string>('');
 
 	useEffect(() => {
-		if (order) {
-			//save order to localstorage
-			localStorage.setItem('order_id', order);
+		const localOrder = getLocalOrder();
+		if (localOrder) {
+			setOrder(localOrder);
 		}
+	}, []);
 
-		console.log(order);
+	useEffect(() => {
+		if (order) {
+			localStorage.setItem('order_id', JSON.stringify(order));
+		}
 	}, [order]);
 
 	return <orderContext.Provider value={{ order, setOrder }}>{children}</orderContext.Provider>;
