@@ -22,14 +22,12 @@ export const router = createBrowserRouter(
 			<Route index element={<Home />} />
 			<Route path="sign-up" element={<SignUp />} />
 			<Route path="sign-in" element={<SignIn />} />
-			<Route path="cart" element={<Cart />} />
 			<Route path="contact" element={<Contact />} />
 			<Route path="verify-email" element={<VerifyEmail />} />
 			<Route path="*" element={<NotFound />} />
 			<Route path="games" element={<GamesList />} />
 			<Route path="games/:id" element={<GameDetails />} />
 			<Route path="game-details" element={<GameDetails />} />
-			<Route path="checkout" element={<Checkout />} />
 
 			{/* // Password routes */}
 			<Route path="password">
@@ -40,6 +38,8 @@ export const router = createBrowserRouter(
 			{/* // Protected routes */}
 			<Route element={<RouteGuard />}>
 				<Route path="profile" element={<Profile />} />
+				<Route path="checkout" element={<Checkout />} />
+				<Route path="cart" element={<Cart />} />
 			</Route>
 		</Route>
 	)

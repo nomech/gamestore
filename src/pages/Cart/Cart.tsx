@@ -4,13 +4,64 @@ import { formatCurrency } from '../../utils/currency';
 import styles from './Cart.module.css';
 import Button from '../../components/Button/Button';
 import { X } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+
+import supabase from '../../../supabaseConfig';
+import { useOrder } from '../../context/orderContext';
 
 const Cart = () => {
 	const { cart, dispatch } = useCart();
+	const { user } = useAuth();
+	const { setOrder } = useOrder();
+
 	console.log(cart);
+
+	const subTotal = cart.reduce((acc, item) => acc + item.quantity, 0);
+	const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
 	const handleOnClickAdjustQuantity = (action, item) => {
 		dispatch({ type: action, payload: item });
+	};
+
+	const handleOnClickProceedToCheckout = async () => {
+		console.log('user_id:', user.id);
+		try {
+			const { data: order, error: orderError } = await supabase
+				.from('orders')
+				.insert([
+					{
+						user_id: user.id,
+						email: user.email,
+					},
+				])
+				.select()
+				.single(); // return just one object
+
+			if (orderError) {
+				console.error(orderError);
+			} else {
+				console.log('New order:', order);
+			}
+
+			console.log(cart);
+			console.log(order);
+			setOrder(order.id);
+
+			const orderLines = cart.map((item) => ({
+				order_id: order.id,
+				product_id: item.id,
+				quantity: item.quantity,
+			}));
+
+			const { error: orderItemsErrro } = await supabase
+				.from('order_items')
+				.insert(orderLines)
+				.throwOnError();
+
+			console.log(orderItemsErrro);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
@@ -72,17 +123,15 @@ const Cart = () => {
 				</div>
 				<div className={styles.summaryDetails}>
 					<span>Subtotal </span>
-					<span>({cart.reduce((acc, item) => acc + item.quantity, 0)}) items</span>
+					<span>{subTotal} items</span>
 				</div>
 				<div className={styles.summaryTotal}>
 					<span className={styles.total}>Total</span>
-					<span>
-						{formatCurrency(
-							cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
-						)}
-					</span>
+					<span>{formatCurrency(total)}</span>
 				</div>
-				<Button className="checkoutButton">Proceed to Checkout</Button>
+				<Button className="checkoutButton" onClick={() => handleOnClickProceedToCheckout()}>
+					Proceed to Checkout
+				</Button>
 			</div>
 		</div>
 	);
