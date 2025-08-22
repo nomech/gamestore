@@ -62,6 +62,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
 		};
 	}, []);
 
+	console.log(user);
 	return (
 		<AuthContext value={{ session, user, isLoading, error, signOut }}>{children}</AuthContext>
 	);

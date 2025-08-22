@@ -39,6 +39,7 @@ export const router = createBrowserRouter(
 			<Route element={<RouteGuard />}>
 				<Route path="profile" element={<Profile />} />
 				<Route path="checkout" element={<Checkout />} />
+				<Route path="orders" element={<Checkout />} />
 				<Route path="cart" element={<Cart />} />
 			</Route>
 		</Route>
