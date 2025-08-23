@@ -15,6 +15,8 @@ import RouteGuard from '../components/RouteGuard/RouteGuard';
 import ForgotPassword from '../pages/ForgotPassword/ForgotPassword';
 import ResetPassword from '../pages/ResetPassword/ResetPassword';
 import CartGuard from '../components/RouteGuard/cartGuard';
+import Orders from '../pages/Orders/Orders';
+import OrderDetails from '../pages/OrderDetails/OrderDetails';
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -39,11 +41,15 @@ export const router = createBrowserRouter(
 			{/* // Protected routes */}
 			<Route element={<RouteGuard />}>
 				<Route path="profile" element={<Profile />} />
+
+				<Route path="orders" element={<Orders />} />
+				<Route path="orders/:id" element={<OrderDetails />} />
+
+				<Route path="cart" element={<Cart />} />
+
 				<Route element={<CartGuard />}>
 					<Route path="checkout" element={<Checkout />} />
 				</Route>
-				<Route path="orders" element={<Checkout />} />
-				<Route path="cart" element={<Cart />} />
 			</Route>
 		</Route>
 	)
