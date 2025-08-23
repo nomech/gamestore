@@ -119,22 +119,27 @@ const Cart = () => {
 					</ul>
 				)}
 			</div>
-			<div className={styles.cartSummary}>
-				<div className={styles.summaryHeader}>
-					<h2>Order Summary</h2>
+			{cart.length > 0 && (
+				<div className={styles.cartSummary}>
+					<div className={styles.summaryHeader}>
+						<h2>Order Summary</h2>
+					</div>
+					<div className={styles.summaryDetails}>
+						<span>Subtotal </span>
+						<span>{subTotal} items</span>
+					</div>
+					<div className={styles.summaryTotal}>
+						<span className={styles.total}>Total</span>
+						<span>{formatCurrency(total)}</span>
+					</div>
+					<Button
+						className="checkoutButton"
+						onClick={() => handleOnClickProceedToCheckout()}
+					>
+						Proceed to Checkout
+					</Button>
 				</div>
-				<div className={styles.summaryDetails}>
-					<span>Subtotal </span>
-					<span>{subTotal} items</span>
-				</div>
-				<div className={styles.summaryTotal}>
-					<span className={styles.total}>Total</span>
-					<span>{formatCurrency(total)}</span>
-				</div>
-				<Button className="checkoutButton" onClick={() => handleOnClickProceedToCheckout()}>
-					Proceed to Checkout
-				</Button>
-			</div>
+			)}
 		</div>
 	);
 };
