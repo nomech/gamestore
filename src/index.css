@@ -52,7 +52,7 @@ header {
 }
 
 main {
-	padding: 4rem;
+	/* padding: 4rem; */
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
