@@ -11,6 +11,7 @@ const Navbar = () => {
 		{ id: 1, to: '/cart', label: 'Cart' },
 		{ id: 2, to: '/profile', label: 'Profile', requiresAuth: true },
 		{ id: 3, to: '/sign-in', label: 'Sign in', requiresAuth: false },
+		{ id: 4, to: '/orders', label: 'Orders', requiresAuth: true },
 	];
 
 	const menuItems = menuConfig.filter((item) => {
