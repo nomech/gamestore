@@ -14,7 +14,7 @@ import SignIn from '../pages/SignIn/SignIn';
 import RouteGuard from '../components/RouteGuard/RouteGuard';
 import ForgotPassword from '../pages/ForgotPassword/ForgotPassword';
 import ResetPassword from '../pages/ResetPassword/ResetPassword';
-import CartGuard from '../components/RouteGuard/cartGuard';
+import CartGuard from '../components/RouteGuard/CartGuard';
 import Orders from '../pages/Orders/Orders';
 import OrderDetails from '../pages/OrderDetails/OrderDetails';
 

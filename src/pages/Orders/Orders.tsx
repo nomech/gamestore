@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Orders.module.css';
 import supabase from '../../../supabaseConfig';
+import { formatCurrency } from '../../utils/currency';
+import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
 	const [orders, setOrder] = useState(null);
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchOrders = async () => {
@@ -11,13 +15,15 @@ const Orders = () => {
 				.from('user_orders')
 				.select('*')
 				.range(0, 9);
-			console.log(user_orders);
-
 			setOrder(user_orders);
 		};
 
 		fetchOrders();
 	}, []);
+
+	const handleOnClickOrder = async (id: string) => {
+		navigate(`/orders/${id}`);
+	};
 
 	return (
 		<div className={styles.orders}>
@@ -31,7 +37,11 @@ const Orders = () => {
 				<ul className={styles.orderList}>
 					{orders &&
 						orders.map((item) => (
-							<li className={styles.orderItem} key={item.id}>
+							<li
+								className={styles.orderItem}
+								key={item.id}
+								onClick={() => handleOnClickOrder(item.id)}
+							>
 								<div>
 									<p className={styles.order_number}>{item.order_number}</p>
 								</div>
@@ -42,7 +52,9 @@ const Orders = () => {
 									<p className={styles.created_at}>{item.created_at}</p>
 								</div>
 								<div>
-									<p className={styles.created_at}>{item.grand_total}</p>
+									<p className={styles.created_at}>
+										{formatCurrency(item.grand_total)}
+									</p>
 								</div>
 							</li>
 						))}
