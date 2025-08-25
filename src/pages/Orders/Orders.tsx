@@ -26,6 +26,7 @@ const Orders = () => {
 					<div>Order nr</div>
 					<div>Status</div>
 					<div>Order Status</div>
+					<div>Total </div>
 				</div>
 				<ul className={styles.orderList}>
 					{orders &&
@@ -39,6 +40,9 @@ const Orders = () => {
 								</div>
 								<div>
 									<p className={styles.created_at}>{item.created_at}</p>
+								</div>
+								<div>
+									<p className={styles.created_at}>{item.grand_total}</p>
 								</div>
 							</li>
 						))}
