@@ -1,0 +1,45 @@
+.orders {
+	display: flex;
+	gap: 2rem;
+	align-self: center;
+	padding: 4rem;
+	color: #cbd5e1;
+}
+
+.ordersContainer {
+	background: #2d3748;
+	border: 1px solid #4a5568;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.ordersHeader {
+	background: #374151;
+	padding: 1rem 1.5rem;
+	border-bottom: 1px solid #4a5568;
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr auto;
+	gap: 1rem;
+	font-weight: 600;
+	font-size: 0.875rem;
+	color: #cbd5e1;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.orderItem {
+	padding: 1rem 1.5rem;
+	border-bottom: 1px solid #4a5568;
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr auto;
+	gap: 1rem;
+	align-items: center;
+	transition: background 0.2s ease;
+	color: #ffffff;
+	cursor: pointer;
+	background-color: #374151;
+}
+
+.orderItem:hover {
+	filter: brightness(1.1);
+}
