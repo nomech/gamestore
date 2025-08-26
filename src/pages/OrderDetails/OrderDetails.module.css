@@ -1,0 +1,125 @@
+/* Copied from Cart.module.css for perfect style match */
+.cart {
+	display: flex;
+	gap: 2rem;
+	align-self: center;
+	padding: 4rem;
+}
+
+.cartContainer {
+	background: #2d3748;
+	border: 1px solid #4a5568;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.cartList {
+	list-style: none;
+}
+
+.cartHeader {
+	background: #374151;
+	padding: 1rem 1.5rem;
+	border-bottom: 1px solid #4a5568;
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr auto;
+	gap: 1rem;
+	font-weight: 600;
+	font-size: 0.875rem;
+	color: #cbd5e1;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.cartItem {
+	padding: 1rem 1.5rem;
+	border-bottom: 1px solid #4a5568;
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr auto;
+	gap: 1rem;
+	align-items: center;
+	transition: background 0.2s ease;
+	color: #ffffff;
+}
+
+.quantityControl {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #374151;
+	border: 1px solid #4a5568;
+	border-radius: 6px;
+	overflow: hidden;
+	width: fit-content;
+}
+
+.qty-btn {
+	background: none;
+	border: none;
+	color: #cbd5e1;
+	padding: 0.5rem 0.75rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	font-size: 1rem;
+	line-height: 1;
+}
+
+.qty-btn:hover {
+	background: #4a5568;
+	color: #48bb78;
+}
+
+.qtyDisplay {
+	padding: 0.5rem 1rem;
+	font-weight: 600;
+	color: #f7fafc;
+	min-width: 40px;
+	text-align: center;
+	background: rgba(72, 187, 120, 0.1);
+}
+
+.cartSummary {
+	display: flex;
+	flex-direction: column;
+	background: #2d3748;
+	border: 1px solid #4a5568;
+	border-radius: 8px;
+	padding: 1rem 1.5rem;
+	max-height: 600px;
+	color: #ffffff;
+	justify-content: space-between;
+}
+
+.summaryHeader {
+	border-bottom: 1px solid #4a5568;
+	padding-bottom: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+.summaryDetails,
+.summaryTotal {
+	display: flex;
+	justify-content: space-between;
+	gap: 1.5rem;
+	border-bottom: 1px solid #4a5568;
+}
+
+.summaryDetails p {
+	border-bottom: 1px solid #4a5568;
+}
+
+.title {
+	font-size: 1rem;
+	font-weight: 600;
+	color: #ffffff;
+	word-wrap: break-word;
+}
+
+.platform {
+	font-size: 0.875rem;
+	color: #a9b0b9;
+}
+
+.title {
+	cursor: pointer;
+}

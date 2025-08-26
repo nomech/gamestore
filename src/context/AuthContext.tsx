@@ -43,7 +43,11 @@ export const AuthProvider = ({ children }: AuthProps) => {
 				setIsLoading(false);
 			} catch (error) {
 				console.error('Error fetching session:', error);
-				setError(error.message);
+				if (error instanceof Error) {
+					setError(error.message);
+				} else {
+					setError(String(error));
+				}
 			}
 		};
 

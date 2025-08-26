@@ -7,9 +7,12 @@ import Button from '../../components/Button/Button';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { useCart } from '../../context/cartContext';
 
+
 const GameDetails = () => {
 	const { id } = useParams();
 	const [game, setGame] = useState<any>(null);
+
+	console.log(game);
 
 	const { dispatch } = useCart();
 
@@ -31,6 +34,7 @@ const GameDetails = () => {
 	if (!game) {
 		return <div className={styles.gameCard}>Loading...</div>;
 	}
+	
 
 	return (
 		<div className={styles.centerContainer}>

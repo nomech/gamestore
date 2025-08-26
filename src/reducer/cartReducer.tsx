@@ -1,4 +1,55 @@
-export const cartReducer = (state, action) => {
+import type { Database } from '../types/supabase';
+type Game = Database['public']['Tables']['games']['Row'];
+
+type CartItem = {
+	product: Game;
+	quantity: number;
+};
+
+interface GameWithId extends CartItem {
+	id: number;
+}
+
+interface AddToCartAction {
+	type: 'ADD_TO_CART';
+	payload: GameWithId;
+}
+
+interface RemoveFromCartAction {
+	type: 'REMOVE_FROM_CART';
+	payload: { id: number };
+}
+
+interface ClearCartAction {
+	type: 'CLEAR_CART';
+}
+
+interface IncreaseQuantityAction {
+	type: 'INCREASE_QUANTITY';
+	payload: { id: number };
+}
+
+interface DecreaseQuantityAction {
+	type: 'DECREASE_QUANTITY';
+	payload: { id: number };
+}
+
+interface UpdateCartAction {
+	type: 'UPDATE_CART';
+	payload: GameWithId[];
+}
+
+export type CartAction =
+	| AddToCartAction
+	| RemoveFromCartAction
+	| ClearCartAction
+	| IncreaseQuantityAction
+	| DecreaseQuantityAction
+	| UpdateCartAction;
+
+export const cartReducer = (state: GameWithId[], action: CartAction): GameWithId[] => {
+	console.log('action', action);
+	console.log('state', state);
 	switch (action.type) {
 		case 'ADD_TO_CART': {
 			const existingItem = state.find((item) => item.id === action.payload.id);

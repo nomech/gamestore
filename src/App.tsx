@@ -17,9 +17,12 @@ const App = () => {
 
 		for (let i = 0; i < PARTICLE_COUNT; i++) {
 			const particle = document.createElement('div');
+			const particleSize = Math.random() * 3 + 'px';
 			particle.className = 'particle';
 			particle.style.left = Math.random() * 100 + '%';
 			particle.style.top = Math.random() * 100 + '%';
+			particle.style.height = particleSize;
+			particle.style.width = particleSize;
 			particle.style.animationDelay = Math.random() * 6 + 's';
 			particle.style.animationDuration = Math.random() * 3 + 3 + 's';
 			container.appendChild(particle);
