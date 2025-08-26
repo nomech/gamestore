@@ -1,9 +1,22 @@
 import { createContext, useContext, useEffect, useReducer, type PropsWithChildren } from 'react';
 import { cartReducer } from '../reducer/cartReducer';
+import type { Database } from '../types/supabase';
+import type { CartAction } from '../reducer/cartReducer';
+
+type Game = Database['public']['Tables']['games']['Row'];
+type CartItem = {
+	product: Game;
+	quantity: number;
+};
+
+type CartContextValue = {
+	cart: CartItem[];
+	dispatch: React.Dispatch<CartAction>;
+};
 
 type cartProps = PropsWithChildren;
 
-const cartContext = createContext<cartProps | null>(null);
+const CartContext = createContext<CartContextValue | null>(null);
 
 const getCartToken = (): string => {
 	let cartToken = localStorage.getItem('gameStore_cartToken');
@@ -29,11 +42,11 @@ export const CartProvider = ({ children }: cartProps) => {
 		localStorage.setItem(cartToken, JSON.stringify(cart));
 	}, [cartToken, cart]);
 
-	return <cartContext.Provider value={{ dispatch, cart }}>{children}</cartContext.Provider>;
+	return <CartContext.Provider value={{ dispatch, cart }}>{children}</CartContext.Provider>;
 };
 
 export const useCart = () => {
-	const context = useContext(cartContext);
+	const context = useContext(CartContext);
 	if (!context) {
 		throw new Error('useCart must be used within a CartProvider');
 	}

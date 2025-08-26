@@ -25,14 +25,23 @@ const Orders = () => {
 		navigate(`/orders/${id}`);
 	};
 
+	const formatDate = (dateString: string) => {
+		const options: Intl.DateTimeFormatOptions = {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+		};
+		return new Date(dateString).toLocaleDateString(undefined, options);
+	};
+
 	return (
 		<div className={styles.orders}>
 			<div className={styles.ordersContainer}>
 				<div className={styles.ordersHeader}>
-					<div>Order nr</div>
-					<div>Status</div>
+					<div>Order ID</div>
 					<div>Order Status</div>
-					<div>Total </div>
+					<div>Order Date</div>
+					<div>Total Amount </div>
 				</div>
 				<ul className={styles.orderList}>
 					{orders &&
@@ -45,11 +54,12 @@ const Orders = () => {
 								<div>
 									<p className={styles.order_number}>{item.order_number}</p>
 								</div>
-								<div>
-									<p className={styles.order_status}>{item.order_status}</p>
+								<div className={styles.order_status}>
+									<div></div>
+									<p>{item.order_status}</p>
 								</div>
 								<div>
-									<p className={styles.created_at}>{item.created_at}</p>
+									<p className={styles.created_at}>{formatDate(item.created_at)}</p>
 								</div>
 								<div>
 									<p className={styles.created_at}>
