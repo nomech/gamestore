@@ -1,0 +1,22 @@
+.heroSection {
+	position: relative;
+	width: 1040px;
+	height: auto;
+	overflow: hidden;
+}
+
+.heroBanner,
+.logo_url {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.logoContainer {
+	width: 400px;
+	top: 0;
+	right: 0;
+	position: absolute;
+	z-index: 999;
+    padding: 2rem;
+}

@@ -1,18 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import supabase from '../../../supabaseConfig';
 import styles from './GameDetails.module.css';
-import { formatCurrency } from '../../utils/currency';
 import Button from '../../components/Button/Button';
-import buttonStyles from '../../components/Button/Button.module.css';
+import Back from '../../components/Back/Back';
+import HeroSection from '../../components/HeroSection/HeroSection';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { formatCurrency } from '../../utils/currency';
 import { useCart } from '../../context/cartContext';
-import Back from '../../components/Back/back';
+import type { Database } from '../../types/supabase';
+type Game = Database['public']['Tables']['games']['Row'];
 
 const GameDetails = () => {
 	const { id } = useParams();
-	const [game, setGame] = useState<any>(null);
-
-	console.log(game);
+	const [game, setGame] = useState<Game | null>(null);
 
 	const { dispatch } = useCart();
 
@@ -35,36 +36,46 @@ const GameDetails = () => {
 		return <div className={styles.gameCard}>Loading...</div>;
 	}
 
+	console.log(game);
+
 	return (
 		<>
 			<Back />
-			<div className={styles.centerContainer}>
-				<div className={styles.gameCard}>
+			<div className={styles.gamesContainer}>
+				<div className={styles.centerContainer}>
 					{game.image_url && (
-						<img src={game.image_url} alt={game.title} className={styles.image} />
+						<HeroSection
+							imageUrl={game.banner_url}
+							logoUrl={game.logo_url}
+							alt={`Hero section for ${game.title}`}
+						/>
 					)}
-					<div className={styles.cardContent}>
-						<h2 className={styles.title}>{game.title}</h2>
-						<p>
-							<strong>Genre:</strong> {game.genre?.genre}
-						</p>
-						<p>
-							<strong>Platform:</strong> {game.platform?.platform}
-						</p>
-						<p>
-							<strong>Release Date:</strong> {game.release_date}
-						</p>
-						<p>
-							<strong>Price:</strong>{' '}
-							{game.price ? formatCurrency(game.price) : 'N/A'}
-						</p>
+					<div className={styles.gameCard}>
+						<ul className={styles.cardContent}>
+							<li className={styles.listItem}>
+								<strong>Release Date:</strong> {game.release_date}
+							</li>
+							<li className={styles.listItem}>
+								<strong>Genre:</strong> {game.genre?.genre}
+							</li>
+							<li className={styles.listItem}>
+								<strong>Platform:</strong> {game.platform?.platform}
+							</li>
+							<li className={styles.listItem}>
+								<strong>Price:</strong>{' '}
+								{game.price ? formatCurrency(game.price) : 'N/A'}
+							</li>
+							<Button
+								className="detailsButton"
+								onClick={() => dispatch({ type: 'ADD_TO_CART', payload: game })}
+							>
+								Add to Cart
+							</Button>
+						</ul>
+					</div>
+					<div className={styles.gameCard}>
+						<h3>About this game</h3>
 						<p>{game.details}</p>
-						<Button
-							className="detailsButton"
-							onClick={() => dispatch({ type: 'ADD_TO_CART', payload: game })}
-						>
-							Add to Cart
-						</Button>
 					</div>
 				</div>
 			</div>

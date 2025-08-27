@@ -1,16 +1,22 @@
+.gamesContainer {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 32px 24px;
+}
 .centerContainer {
-	display: flex;
+	display: grid;
+	grid-template-columns: 1fr 350px;
 	justify-content: center;
 	align-items: center;
-	min-height: 80vh;
 	width: 100%;
+	gap: 4rem;
 }
 
 .gameCard {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	max-width: 600px;
+	padding: 1rem;
 	min-width: 400px;
 	border: 1.5px solid #566675;
 	background: #24263c;
@@ -73,6 +79,7 @@
 	background: linear-gradient(90deg, #4f46e5 0%, #2563eb 100%);
 }
 
-.cardContent{
-	padding: 1rem;
+.listItem {
+	display: flex;
+	justify-content: space-between;
 }
