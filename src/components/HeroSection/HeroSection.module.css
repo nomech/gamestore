@@ -1,6 +1,5 @@
 .heroSection {
 	position: relative;
-	width: 1040px;
 	height: auto;
 	overflow: hidden;
 }
@@ -18,5 +17,5 @@
 	right: 0;
 	position: absolute;
 	z-index: 999;
-    padding: 2rem;
+	padding: 2rem;
 }

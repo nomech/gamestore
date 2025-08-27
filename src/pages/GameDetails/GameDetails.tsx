@@ -42,6 +42,7 @@ const GameDetails = () => {
 		<>
 			<Back />
 			<div className={styles.gamesContainer}>
+				<h1>{game.title}</h1>
 				<div className={styles.centerContainer}>
 					{game.image_url && (
 						<HeroSection
