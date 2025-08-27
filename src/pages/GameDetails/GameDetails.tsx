@@ -6,7 +6,7 @@ import { formatCurrency } from '../../utils/currency';
 import Button from '../../components/Button/Button';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { useCart } from '../../context/cartContext';
-
+import Back from '../../components/Back/back';
 
 const GameDetails = () => {
 	const { id } = useParams();
@@ -34,38 +34,41 @@ const GameDetails = () => {
 	if (!game) {
 		return <div className={styles.gameCard}>Loading...</div>;
 	}
-	
 
 	return (
-		<div className={styles.centerContainer}>
-			<div className={styles.gameCard}>
-				{game.image_url && (
-					<img src={game.image_url} alt={game.title} className={styles.image} />
-				)}
-				<div className={styles.cardContent}>
-					<h2 className={styles.title}>{game.title}</h2>
-					<p>
-						<strong>Genre:</strong> {game.genre?.genre}
-					</p>
-					<p>
-						<strong>Platform:</strong> {game.platform?.platform}
-					</p>
-					<p>
-						<strong>Release Date:</strong> {game.release_date}
-					</p>
-					<p>
-						<strong>Price:</strong> {game.price ? formatCurrency(game.price) : 'N/A'}
-					</p>
-					<p>{game.details}</p>
-					<Button
-						className="detailsButton"
-						onClick={() => dispatch({ type: 'ADD_TO_CART', payload: game })}
-					>
-						Add to Cart
-					</Button>
+		<>
+			<Back />
+			<div className={styles.centerContainer}>
+				<div className={styles.gameCard}>
+					{game.image_url && (
+						<img src={game.image_url} alt={game.title} className={styles.image} />
+					)}
+					<div className={styles.cardContent}>
+						<h2 className={styles.title}>{game.title}</h2>
+						<p>
+							<strong>Genre:</strong> {game.genre?.genre}
+						</p>
+						<p>
+							<strong>Platform:</strong> {game.platform?.platform}
+						</p>
+						<p>
+							<strong>Release Date:</strong> {game.release_date}
+						</p>
+						<p>
+							<strong>Price:</strong>{' '}
+							{game.price ? formatCurrency(game.price) : 'N/A'}
+						</p>
+						<p>{game.details}</p>
+						<Button
+							className="detailsButton"
+							onClick={() => dispatch({ type: 'ADD_TO_CART', payload: game })}
+						>
+							Add to Cart
+						</Button>
+					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

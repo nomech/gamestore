@@ -3,6 +3,7 @@ import supabase from '../../../supabaseConfig';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './OrderDetails.module.css';
 import { formatCurrency } from '../../utils/currency';
+import Back from '../../components/Back/back';
 
 const OrderDetails = () => {
 	const [orderItems, setOrderItems] = useState<any[]>([]);
@@ -40,39 +41,42 @@ const OrderDetails = () => {
 	};
 
 	return (
-		<div className={styles.cart}>
-			<div className={styles.cartContainer}>
-				<div className={styles.cartHeader}>
-					<div className={styles.headerProduct}>Product</div>
-					<div className={styles.headerPrice}>Price</div>
-					<div className={styles.headerQuantity}>Quantity</div>
+		<>
+			<Back />
+			<div className={styles.cart}>
+				<div className={styles.cartContainer}>
+					<div className={styles.cartHeader}>
+						<div className={styles.headerProduct}>Product</div>
+						<div className={styles.headerPrice}>Price</div>
+						<div className={styles.headerQuantity}>Quantity</div>
+					</div>
+					{orderItems.length === 0 ? (
+						<p className={styles.emptyCart}>No items found in this order.</p>
+					) : (
+						<ul className={styles.cartList}>
+							{orderItems.map((item, index) => (
+								<li key={item.id || index} className={styles.cartItem}>
+									<div className={styles.productInfo}>
+										<h2
+											className={styles.title}
+											onClick={() => handleOnClickProduct(item.games.id)}
+										>
+											{item.games.title}
+										</h2>
+									</div>
+									<div className={styles.priceInfo}>
+										<p>{formatCurrency(item.Price)}</p>
+									</div>
+									<div className={styles.quantityInfo}>
+										<p>{item.quantity}</p>
+									</div>
+								</li>
+							))}
+						</ul>
+					)}
 				</div>
-				{orderItems.length === 0 ? (
-					<p className={styles.emptyCart}>No items found in this order.</p>
-				) : (
-					<ul className={styles.cartList}>
-						{orderItems.map((item, index) => (
-							<li key={item.id || index} className={styles.cartItem}>
-								<div className={styles.productInfo}>
-									<h2
-										className={styles.title}
-										onClick={() => handleOnClickProduct(item.games.id)}
-									>
-										{item.games.title}
-									</h2>
-								</div>
-								<div className={styles.priceInfo}>
-									<p>{formatCurrency(item.Price)}</p>
-								</div>
-								<div className={styles.quantityInfo}>
-									<p>{item.quantity}</p>
-								</div>
-							</li>
-						))}
-					</ul>
-				)}
 			</div>
-		</div>
+		</>
 	);
 };
 
