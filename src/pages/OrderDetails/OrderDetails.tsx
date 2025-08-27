@@ -3,7 +3,7 @@ import supabase from '../../../supabaseConfig';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './OrderDetails.module.css';
 import { formatCurrency } from '../../utils/currency';
-import Back from '../../components/Back/back';
+import Back from '../../components/Back/Back';
 
 const OrderDetails = () => {
 	const [orderItems, setOrderItems] = useState<any[]>([]);
