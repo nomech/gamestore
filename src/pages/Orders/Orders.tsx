@@ -5,7 +5,15 @@ import { formatCurrency } from '../../utils/currency';
 import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
-	const [orders, setOrder] = useState(null);
+	type Order = {
+		id: string;
+		order_number: string;
+		order_status: string;
+		created_at: string;
+		grand_total: number;
+	};
+	
+	const [orders, setOrder] = useState<Order[] | null>(null);
 
 	const navigate = useNavigate();
 
@@ -34,43 +42,59 @@ const Orders = () => {
 		return new Date(dateString).toLocaleDateString(undefined, options);
 	};
 
+	console.log(orders);
+
 	return (
-		<div className={styles.orders}>
-			<div className={styles.ordersContainer}>
-				<div className={styles.ordersHeader}>
-					<div>Order ID</div>
-					<div>Order Status</div>
-					<div>Order Date</div>
-					<div>Total Amount </div>
+		<>
+			{orders && orders.length === 0 && (
+				<div className={styles.orders}>
+					<p>You have no orders yet</p>
 				</div>
-				<ul className={styles.orderList}>
-					{orders &&
-						orders.map((item) => (
-							<li
-								className={styles.orderItem}
-								key={item.id}
-								onClick={() => handleOnClickOrder(item.id)}
-							>
-								<div>
-									<p className={styles.order_number}>{item.order_number}</p>
-								</div>
-								<div className={styles.order_status}>
-									<div></div>
-									<p>{item.order_status}</p>
-								</div>
-								<div>
-									<p className={styles.created_at}>{formatDate(item.created_at)}</p>
-								</div>
-								<div>
-									<p className={styles.created_at}>
-										{formatCurrency(item.grand_total)}
-									</p>
-								</div>
-							</li>
-						))}
-				</ul>
-			</div>
-		</div>
+			)}
+
+			{orders && orders.length > 0 && (
+				<div className={styles.orders}>
+					<div className={styles.ordersContainer}>
+						<div className={styles.ordersHeader}>
+							<div>Order ID</div>
+							<div>Order Status</div>
+							<div>Order Date</div>
+							<div>Total Amount </div>
+						</div>
+						<ul className={styles.orderList}>
+							{orders &&
+								orders.map((item) => (
+									<li
+										className={styles.orderItem}
+										key={item.id}
+										onClick={() => handleOnClickOrder(item.id)}
+									>
+										<div>
+											<p className={styles.order_number}>
+												{item.order_number}
+											</p>
+										</div>
+										<div className={styles.order_status}>
+											<div></div>
+											<p>{item.order_status}</p>
+										</div>
+										<div>
+											<p className={styles.created_at}>
+												{formatDate(item.created_at)}
+											</p>
+										</div>
+										<div>
+											<p className={styles.created_at}>
+												{formatCurrency(item.grand_total)}
+											</p>
+										</div>
+									</li>
+								))}
+						</ul>
+					</div>
+				</div>
+			)}
+		</>
 	);
 };
 

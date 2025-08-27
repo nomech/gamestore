@@ -27,7 +27,9 @@
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 }
-
+.ordersHeader {
+	font-weight: bold;
+}
 .orderItem {
 	transition: background 0.2s ease;
 	color: #ffffff;
