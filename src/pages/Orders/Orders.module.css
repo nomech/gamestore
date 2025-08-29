@@ -45,9 +45,8 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	background-color: #e2d289;
+	background-color: #feb600;
 	font-weight: bold;
-	color: #a75e00;
 	width: fit-content;
 	padding: 0 1rem;
 	border-radius: 8px;

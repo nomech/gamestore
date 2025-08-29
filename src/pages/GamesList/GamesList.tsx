@@ -42,10 +42,7 @@ const GameCardSkeleton = () => (
 		</div>
 		<div className={styles.cardWrapper}>
 			<div className={styles.skeletonTitle}></div>
-			<div className={styles.skeletonText}></div>
-			<div className={styles.skeletonText}></div>
-			<div className={styles.skeletonDate}></div>
-			<div className={styles.cardFooter}>
+				<div className={styles.cardFooter}>
 				<div className={styles.actionsContainer}>
 					<div className={styles.skeletonButton}></div>
 				</div>
@@ -194,10 +191,7 @@ const GamesList = () => {
 						</div>
 						<div className={styles.cardWrapper}>
 							<h2 className={styles.title}>{game.title}</h2>
-							<p className={styles.details}>{game.details}</p>
-							<p className={styles.releaseDate}>
-								Released: {game.release_date ? game.release_date : 'N/A'}
-							</p>
+
 							<div className={styles.cardFooter}>
 								<div className={styles.actionsContainer}>
 									<Button

@@ -112,6 +112,11 @@
 	font-weight: 600;
 	color: #ffffff;
 	word-wrap: break-word;
+	cursor: pointer;
+}
+
+.title:hover {
+	color: #c9c9c9;
 }
 
 .platform {

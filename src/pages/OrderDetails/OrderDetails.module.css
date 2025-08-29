@@ -115,6 +115,10 @@
 	word-wrap: break-word;
 }
 
+.title:hover {
+	color: #c9c9c9;
+}
+
 .platform {
 	font-size: 0.875rem;
 	color: #a9b0b9;

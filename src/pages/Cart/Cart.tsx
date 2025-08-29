@@ -12,16 +12,20 @@ const Cart = () => {
 	const { cart, dispatch } = useCart();
 	const { user } = useAuth();
 	const { setOrder } = useOrder();
-
 	const navigate = useNavigate();
-
-	console.log(cart);
 
 	const subTotal = cart.reduce((acc, item) => acc + item.quantity, 0);
 	const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
 	const handleOnClickAdjustQuantity = (action, item) => {
 		dispatch({ type: action, payload: item });
+	};
+
+	const handleOnClickItem = (id: string) => {
+		if (!id) {
+			return;
+		}
+		navigate(`/games/${id}`);
 	};
 
 	const handleOnClickProceedToCheckout = async () => {
@@ -81,7 +85,12 @@ const Cart = () => {
 						{cart.map((item) => (
 							<li className={styles.cartItem} key={item.id}>
 								<div>
-									<h2 className={styles.title}>{item.title}</h2>
+									<h2
+										className={styles.title}
+										onClick={() => handleOnClickItem(item.id)}
+									>
+										{item.title}
+									</h2>
 									<p className={styles.platform}>{item.platform.platform}</p>
 								</div>
 								<div className={styles.imageContainer}>
