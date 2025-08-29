@@ -70,12 +70,12 @@ export type Database = {
 			genre: {
 				Row: {
 					created_at: string;
-					genre: string | null;
+					genre: string;
 					id: number;
 				};
 				Insert: {
 					created_at?: string;
-					genre?: string | null;
+					genre?: string;
 					id?: number;
 				};
 				Update: {

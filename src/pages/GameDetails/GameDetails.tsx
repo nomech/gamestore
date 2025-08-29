@@ -1,13 +1,12 @@
 import supabase from '../../../supabaseConfig';
 import styles from './GameDetails.module.css';
-import Button from '../../components/Button/Button';
 import Back from '../../components/Back/Back';
 import HeroSection from '../../components/HeroSection/HeroSection';
+import InfoCard from '../../components/InfoCard/InfoCard';
+import About from '../../components/About/About';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { formatCurrency } from '../../utils/currency';
-import { useCart } from '../../context/cartContext';
 import type { Database } from '../../types/supabase';
 type Game = Database['public']['Tables']['games']['Row'];
 
@@ -15,16 +14,22 @@ const GameDetails = () => {
 	const { id } = useParams();
 	const [game, setGame] = useState<Game | null>(null);
 
-	const { dispatch } = useCart();
-
 	useEffect(() => {
 		const fetchGameDetails = async () => {
 			try {
-				let { data: game, error } = await supabase
+				const { data, error } = await supabase
 					.from('games')
-					.select('*, genre (id, genre), platform (id, platform )')
-					.eq('id', id);
-				setGame(game ? game[0] : null);
+					.select(
+						`
+				*,
+				genre ( id, genre ),
+				platform ( id, platform )
+			`
+					)
+					.eq('id', id)
+					.single();
+
+				setGame(data ? data : null);
 			} catch (error) {
 				console.log(error);
 			}
@@ -35,8 +40,6 @@ const GameDetails = () => {
 	if (!game) {
 		return <div className={styles.gameCard}>Loading...</div>;
 	}
-
-	console.log(game);
 
 	return (
 		<>
@@ -51,33 +54,8 @@ const GameDetails = () => {
 							alt={`Hero section for ${game.title}`}
 						/>
 					)}
-					<div className={styles.gameCard}>
-						<ul className={styles.cardContent}>
-							<li className={styles.listItem}>
-								<strong>Release Date:</strong> {game.release_date}
-							</li>
-							<li className={styles.listItem}>
-								<strong>Genre:</strong> {game.genre?.genre}
-							</li>
-							<li className={styles.listItem}>
-								<strong>Platform:</strong> {game.platform?.platform}
-							</li>
-							<li className={styles.listItem}>
-								<strong>Price:</strong>{' '}
-								{game.price ? formatCurrency(game.price) : 'N/A'}
-							</li>
-							<Button
-								className="detailsButton"
-								onClick={() => dispatch({ type: 'ADD_TO_CART', payload: game })}
-							>
-								Add to Cart
-							</Button>
-						</ul>
-					</div>
-					<div className={styles.gameCard}>
-						<h3>About this game</h3>
-						<p>{game.details}</p>
-					</div>
+					<InfoCard game={game} />
+					<About text={game.details ?? ''} />
 				</div>
 			</div>
 		</>

@@ -1,0 +1,33 @@
+.about {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	border: 1.5px solid #566675;
+	background: #24263c;
+	color: #ffffff;
+	border-radius: 16px;
+	box-shadow: 0 8px 24px rgba(36, 38, 60, 0.15);
+}
+
+.cardContent {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem 0;
+}
+
+.listItem {
+	display: flex;
+	justify-content: space-between;
+}
+
+.priceContainer {
+	margin: 0 auto;
+	padding: 1rem;
+	font-weight: bold;
+	font-size: 28px;
+}
+
+.muted {
+	color: #a2acb6;
+}

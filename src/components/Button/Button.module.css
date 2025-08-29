@@ -43,7 +43,7 @@
 
 .addButton,
 .detailsButton {
-	background: #27ae60;
+	background: #198546;
 	color: white;
 	border: none;
 	padding: 8px 16px;
@@ -51,11 +51,13 @@
 	cursor: pointer;
 	font-size: 12px;
 	font-weight: bold;
+	border: 1px solid #198546;
 }
 
 .addButton:hover,
-.detailsButton {
-	background: #2ecc71;
+.detailsButton:hover {
+	background: transparent;
+	color: #ffffff;
 }
 
 .qty-btn {
